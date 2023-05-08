@@ -45,7 +45,7 @@ void close_file(int fd)
 }
 
 /**
- * main - Copies the contents of a file to another file.
+ * main - Copies the constituents of a file to another file.
  * @argc: The number of arguments supplied to the program.
  * @argv: An array of pointers to the arguments.
  *
@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
 
 	if (argc != 3)
 	{
-		dprintf(STDERR_FILENO, "Use: cp file_from file_to\n");
+		dprintf(STDERR_FILENO, "Useage: cp file_from file_to\n");
 		exit(97);
 	}
 
