@@ -3,13 +3,13 @@
 #include <stdlib.h>
 
 char *create_buffer(char *file);
-void close_file(int f);
+void close_file(int fd);
 
 /**
  * create_buffer - Allocates 1024 bytes for a buffer.
  * @file: The name of the file buffer is storing chars for.
  *
- * Return: A pointer to the newly-allocated buffer.
+ * Return: A pointer to the current allocated buffer.
  */
 char *create_buffer(char *file)
 {
@@ -28,18 +28,18 @@ char *create_buffer(char *file)
 }
 
 /**
- * close_file - Closes file descriptors.
- * @f: The file descriptor to be closed.
+ * close_file - To close file descriptors.
+ * @fd: The file descriptor to be closed.
  */
-void close_file(int f)
+void close_file(int fd)
 {
-	int g;
+	int i;
 
-	g = close(f);
+	i = close(fd);
 
-	if (g == -1)
+	if (i == -1)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't close f %d\n", f);
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd);
 		exit(100);
 	}
 }
@@ -52,13 +52,13 @@ void close_file(int f)
  * Return: 0 on success.
  *
  * Description: If the argument count is incorrect - exit code 97.
- *              If file_k does not exist or cannot be read - exit code 98.
+ *              If file_w does not exist or cannot be read - exit code 98.
  *              If file_x cannot be created or written to - exit code 99.
  *              If file_x or file_w cannot be closed - exit code 100.
  */
 int main(int argc, char *argv[])
 {
-	int k, x, y, z;
+	int w, x, y, z;
 	char *buffer;
 
 	if (argc != 3)
@@ -68,12 +68,12 @@ int main(int argc, char *argv[])
 	}
 
 	buffer = create_buffer(argv[2]);
-	k = open(argv[1], O_RDONLY);
-	y = read(k, buffer, 1024);
+	w = open(argv[1], O_RDONLY);
+	y = read(w, buffer, 1024);
 	x = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
 
 	do {
-		if (k == -1 || y == -1)
+		if (w == -1 || y == -1)
 		{
 			dprintf(STDERR_FILENO,
 				"Error: Can't read from file %s\n", argv[1]);
@@ -90,13 +90,13 @@ int main(int argc, char *argv[])
 			exit(99);
 		}
 
-		y = read(k, buffer, 1024);
+		y = read(w, buffer, 1024);
 		x = open(argv[2], O_WRONLY | O_APPEND);
 
 	} while (y > 0);
 
 	free(buffer);
-	close_file(k);
+	close_file(w);
 	close_file(x);
 
 	return (0);
