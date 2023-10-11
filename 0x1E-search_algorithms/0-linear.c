@@ -10,7 +10,6 @@
  * Return: The index of the value in the array if found, or -1 if the value
  * is not in the array or if the array is NULL.
  */
-
 int linear_search(int *array, size_t size, int value)
 {
 	size_t i;
